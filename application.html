@@ -4,7 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apply for Tutoring</title>
-    <link rel="stylesheet" href="application.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+        }
+        header {
+            background-color: #1a1a1a;
+            padding: 20px;
+        }
+        header h1 {
+            color: #00f;
+        }
+        .application-form {
+            padding: 50px 20px;
+        }
+        .application-form label {
+            display: block;
+            margin: 15px 0 5px;
+        }
+        .application-form input, .application-form select {
+            padding: 10px;
+            width: 200px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+            background-color: #222;
+            color: #fff;
+        }
+        .application-form button {
+            padding: 10px 20px;
+            background-color: #00f;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+        .application-form button:hover {
+            background-color: #0056b3;
+        }
+        .application-form .total-cost {
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+        .application-form .communication {
+            margin-top: 20px;
+            font-size: 1em;
+        }
+        footer {
+            background-color: #1a1a1a;
+            padding: 20px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .email-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .email-icon img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #00f;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+        .back-link:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -12,25 +92,25 @@
     </header>
     <section class="application-form">
         <h2>Book Your Tutoring Lessons for Grade 10 - Grade 12</h2>
-        <form>
+        <form id="applicationForm">
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" aria-label="Name" required>
+            <input type="text" id="name" name="name" required>
             
             <label for="surname">Surname:</label>
-            <input type="text" id="surname" name="surname" aria-label="Surname" required>
+            <input type="text" id="surname" name="surname" required>
             
             <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" aria-label="Phone Number" required>
+            <input type="tel" id="phone" name="phone" required>
             
             <label for="grade">Grade:</label>
-            <select id="grade" name="grade" aria-label="Grade" required>
+            <select id="grade" name="grade" required>
                 <option value="10">Grade 10</option>
                 <option value="11">Grade 11</option>
                 <option value="12">Grade 12</option>
             </select>
             
             <label for="hours">Number of Hours:</label>
-            <input type="number" id="hours" name="hours" min="1" aria-label="Number of Hours" required>
+            <input type="number" id="hours" name="hours" min="1" required>
             
             <div class="total-cost">Total Cost: R<span id="cost">0</span></div>
             
@@ -49,7 +129,63 @@
         </div>
         &copy; 2024 Math Tutoring. All rights reserved.
     </footer>
-    <script type="module" src="application.js"></script>
+    <script type="module">
+        // Import Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCVoco3TV0oDQbVDQAdrlYEUdKFXDxfXS4",
+            authDomain: "tutorings-a8d6a.firebaseapp.com",
+            projectId: "tutorings-a8d6a",
+            storageBucket: "tutorings-a8d6a.appspot.com",
+            messagingSenderId: "455722665949",
+            appId: "1:455722665949:web:4235a82dd2689de1415834"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Handle form submission
+        document.getElementById('applicationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const surname = document.getElementById('surname').value;
+            const phone = document.getElementById('phone').value;
+            const grade = document.getElementById('grade').value;
+            const hours = document.getElementById('hours').value;
+            const totalCost = hours * 200; // Assuming R200 per hour
+
+            try {
+                const docRef = await addDoc(collection(db, "applications"), {
+                    name: name,
+                    surname: surname,
+                    phone: phone,
+                    grade: grade,
+                    hours: hours,
+                    totalCost: totalCost
+                });
+                alert("Application submitted successfully!");
+                document.getElementById('applicationForm').reset();
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                alert("Error submitting application. Please try again.");
+            }
+        });
+
+        // Update cost display
+        const hoursInput = document.getElementById('hours');
+        const costSpan = document.getElementById('cost');
+        const ratePerHour = 200;
+
+        hoursInput.addEventListener('input', () => {
+            const hours = hoursInput.value;
+            const cost = hours * ratePerHour;
+            costSpan.textContent = cost;
+        });
+    </script>
 </body>
 </html>
-
