@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Tutoring</title>
+    <link rel="stylesheet" href="application.css">
+</head>
+<body>
+    <header>
+        <h1>Apply for Tutoring</h1>
+    </header>
+    <section class="application-form">
+        <h2>Book Your Tutoring Lessons for Grade 10 - Grade 12</h2>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" aria-label="Name" required>
+            
+            <label for="surname">Surname:</label>
+            <input type="text" id="surname" name="surname" aria-label="Surname" required>
+            
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" aria-label="Phone Number" required>
+            
+            <label for="grade">Grade:</label>
+            <select id="grade" name="grade" aria-label="Grade" required>
+                <option value="10">Grade 10</option>
+                <option value="11">Grade 11</option>
+                <option value="12">Grade 12</option>
+            </select>
+            
+            <label for="hours">Number of Hours:</label>
+            <input type="number" id="hours" name="hours" min="1" aria-label="Number of Hours" required>
+            
+            <div class="total-cost">Total Cost: R<span id="cost">0</span></div>
+            
+            <div class="communication">
+                <p>We use Discord preferably for the lessons. We could also try and use other communication methods.</p>
+            </div>
+            
+            <button type="submit">Apply Now</button>
+        </form>
+        <a href="index.html" class="back-link">Back to Home</a>
+    </section>
+    <footer>
+        <div class="email-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email Icon">
+            <a href="mailto:moloiteboho0209@gmail.com" style="color: #fff;">moloiteboho0209@gmail.com</a>
+        </div>
+        &copy; 2024 Math Tutoring. All rights reserved.
+    </footer>
+    <script type="module" src="application.js"></script>
+</body>
+</html>
+
